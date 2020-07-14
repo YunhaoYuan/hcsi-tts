@@ -1,0 +1,1 @@
+jin1-tian1 shi4 zhou1-yi1 ， tian1-qi4 ting3 hao3 de5 。|media/tacotron_output/eval/mel-batch_0_sentence_0.npy|<no_g>
