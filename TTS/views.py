@@ -83,7 +83,7 @@ def syn(sentence):
                 file.write('|'.join([str(x) for x in elems]) + '\n')
     log('synthesized mel spectrograms at {}'.format(eval_dir))
 
-@csrf_exempt
+
 def TacotronProcess(txt, spk, lan):
     sentence = [txt+'|'+spk+'|'+lan, ]
     syn(sentence)
@@ -92,6 +92,7 @@ def TacotronProcess(txt, spk, lan):
     ret = {'respCode': '0000', 'text': txt, 'waveURL': wave}
     return ret
 
+@csrf_exempt
 def tts_api(request):
     if (request.method=='GET'):
         url=request.get_full_path()
@@ -128,6 +129,7 @@ def tts_api(request):
     response['Content-Length'] = os.path.getsize(fname)
     return response
 
+@csrf_exempt
 def tts(request):
     # get parameters
     if request.method == 'GET':
