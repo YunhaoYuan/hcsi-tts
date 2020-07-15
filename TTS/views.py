@@ -128,34 +128,27 @@ def tts_api(request):
     response['Content-Length'] = os.path.getsize(fname)
     return response
 
-def tts_web(request):
+def tts(request):
     # get parameters
     if request.method == 'GET':
-        txt = request.GET.get('txt', '')
-        way = request.GET.get('way', '')
-        spk = request.GET.get('spk', '')
-        lan = request.GET.get('lan', '')
+        text = request.GET.get('text', '')
+        format = request.GET.get('format', '')
+        sample_rate = request.GET.get('sample_rate','')
+        voice = request.GET.get('voice','')
+        volume = request.GET.get('volume','')
+        speech_rate = request.GET.get('speech_rate','')
+        pitch_rate = request.GET.get('pitch_rate','')
     elif request.method == 'POST':
-        txt = request.POST.get('txt', '')
-        way = request.POST.get('way', '')
-        spk = request.POST.get('spk', '')
-        lan = request.POST.get('lan', '')
-    print(txt,way,spk,lan)
-    if way == "taco_0":
-        # Tacotron process
-        weight=' 0'
-        ret = TacotronProcess(txt, spk, lan, weight)
-    elif way == "taco_0.01":
-        # Tacotron process
-        weight=' 0.01'
-        ret = TacotronProcess(txt, spk, lan, weight)
-    elif way == "taco_0.02":
-        # Tacotron process
-        weight = ' 0.02'
-        ret = TacotronProcess(txt, spk, lan, weight)
-    else:
-        # tts process
-        ret = ttsProcess(txt, way)
+        text = request.POST.get('text', '')
+        format = request.POST.get('format', '')
+        sample_rate = request.POST.get('sample_rate', '')
+        voice = request.POST.get('voice', '')
+        volume = request.PSOT.get('volume', '')
+        speech_rate = request.POST.get('speech_rate', '')
+        pitch_rate = request.POST.get('pitch_rate', '')
+
+    lan = '1'  # language label 0-EN，1-CN
+    ret = TacotronProcess(text, voice, lan)
     return JsonResponse(ret)
 
 def index(request):
