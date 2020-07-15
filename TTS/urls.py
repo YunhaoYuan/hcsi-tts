@@ -4,7 +4,7 @@ from django.conf.urls.static import static
 
 from . import views
 
-app_name = 'tts'
+app_name = 'TTS'
 urlpatterns = [
     url(r'^$', views.index, name='index'),
     url(r'^tts/', views.tts, name='tts'),

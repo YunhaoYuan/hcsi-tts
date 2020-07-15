@@ -15,9 +15,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.conf.urls import url,include
+from django.conf.urls.static import static
+from django.conf import settings
 from TTS import views as TTS_views
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^TTS_API/',TTS_views.tts_api),
+    url(r'^tts/', include('tts.urls')),
     url(r'^$', TTS_views.index),
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
