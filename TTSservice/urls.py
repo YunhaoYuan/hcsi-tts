@@ -18,5 +18,6 @@ from django.conf.urls import url,include
 from TTS import views as TTS_views
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^TTS/',TTS_views.index),
+    url(r'^TTS_API/',TTS_views.tts_api),
+    url(r'^$', TTS_views.index),
 ]

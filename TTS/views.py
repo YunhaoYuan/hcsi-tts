@@ -11,6 +11,7 @@ from Tacotron.zh_cn import G2P
 from tqdm import tqdm
 
 import json
+from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from urllib import parse
@@ -91,7 +92,7 @@ def TacotronProcess(txt, spk, lan):
     ret = {'respCode': '0000', 'text': txt, 'waveURL': wave}
     return ret
 
-def index(request):
+def tts_api(request):
     if (request.method=='GET'):
         url=request.get_full_path()
         parameter = parse.parse_qs(parse.urlparse(url).query)
@@ -127,5 +128,36 @@ def index(request):
     response['Content-Length'] = os.path.getsize(fname)
     return response
 
+def tts_web(request):
+    # get parameters
+    if request.method == 'GET':
+        txt = request.GET.get('txt', '')
+        way = request.GET.get('way', '')
+        spk = request.GET.get('spk', '')
+        lan = request.GET.get('lan', '')
+    elif request.method == 'POST':
+        txt = request.POST.get('txt', '')
+        way = request.POST.get('way', '')
+        spk = request.POST.get('spk', '')
+        lan = request.POST.get('lan', '')
+    print(txt,way,spk,lan)
+    if way == "taco_0":
+        # Tacotron process
+        weight=' 0'
+        ret = TacotronProcess(txt, spk, lan, weight)
+    elif way == "taco_0.01":
+        # Tacotron process
+        weight=' 0.01'
+        ret = TacotronProcess(txt, spk, lan, weight)
+    elif way == "taco_0.02":
+        # Tacotron process
+        weight = ' 0.02'
+        ret = TacotronProcess(txt, spk, lan, weight)
+    else:
+        # tts process
+        ret = ttsProcess(txt, way)
+    return JsonResponse(ret)
 
+def index(request):
+    return render(request, 'tts/index.html')
 
