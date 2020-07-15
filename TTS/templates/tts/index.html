@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>{% load static %}
+<meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<title>语音合成演示</title>
+<script type="text/javascript" src="{% static 'tts/jquery-1.10.1.min.js' %}"></script>
+<script type="text/javascript">
+  $(document).ready(function() {
+    $("#clear").click(function() {
+      // 清空内容
+      $("#text").val('');
+      $("#pinyin").val('');
+      document.getElementById("play").src = '';
+    });
+    $("#synth").click(function() {
+      // 获得合成信息
+      text = $("#text").val().trim();
+      format = $("#format").val().trim();
+      sample_rate = $("#sample_rate").val().trim();
+      voice = $("#voice").val().trim();
+      volume = $("#volume").val().trim();
+      speech_rate = $("#speech_rate").val().trim();
+      pitch_rate = $("#pitch_rate").val().trim();
+      if (txt == "") return;
+      // 请求合成
+      $.post("{% url 'tts:tts' %}", {'text':text,'format':format,'sample_rate':sample_rate,'voice':voice, 'volume':volume, 'speech_rate':speech_rate, 'pitch_rate':pitch_rate}, function(data, status, xhr) {
+        if(data.respCode == "0000") {
+          var audioElem = document.getElementById("play");
+          audioElem.src = data.waveURL;
+          audioElem.play();    //播放
+          $("#pinyin").val(data.pinyin);
+        } else {
+          alert("发生错误: " + data.respCode);
+        }
+      });
+	  });
+	});
+</script>
+</head>
+<body style="font: 13px Verdana; background: #eee; color: #333">
+<div class="container-fluid">
+	<h2 class="mt-2 mb-2">语音合成演示</h2>
+	<div class="input-group mb-2">
+		<textarea id="text" rows="10" class="form-control"></textarea>
+	</div>
+	<div class="input-group mb-2">
+		<div class="input-group-prepend">
+			<label class="input-group-text" for="format">音频编码格式：</label>
+		</div>
+		<select class="custom-select" id="format">
+			<option value="wav" selected>wav</option>
+			<option value="pcm" selected>pcm</option>
+			<option value="mp3" selected>mp3</option>
+		</select>
+		<div class="input-group-prepend">
+			<label class="input-group-text" for="sample_rate">音频采样率：</label>
+		</div>
+		<select class="custom-select" id="sample_rate">
+			<option value=16000 selected>16000Hz</option>
+			<option value=8000 selected>8000Hz</option>
+		</select>
+		<div class="input-group-prepend">
+			<label class="input-group-text" for="voice">发音人：</label>
+		</div>
+		<select class="custom-select" id="voice">
+			<option value='0' selected>说话人0（英语）</option>
+			<option value='1' selected>说话人1（普通话）</option>
+			<option value='2' selected>说话人2（普通话）</option>
+			<option value='3' selected>说话人3（英语）</option>
+			<option value='4' selected>说话人4（普通话）</option>
+			<option value='5' selected>说话人5（普通话）</option>
+			<option value='6' selected>说话人6（普通话）</option>
+			<option value='7' selected>说话人7（英语）</option>
+			<option value='8' selected>说话人8（英语）</option>
+			<option value='9' selected>说话人9（英语）</option>
+		</select>
+		<div class="input-group-prepend">
+			<label class="input-group-text" for="way">音量：</label>
+		</div>
+		<select class="custom-select" id="way">
+			<option value=50 selected>50</option>
+		</select>
+		<div class="input-group-prepend">
+			<label class="input-group-text_2" for="speech_rate">语速：</label>
+		</div>
+		<select class="custom-select" id="speech_rate">
+			<option value=0 selected>0</option>
+		</select>
+		<div class="input-group-prepend">
+			<label class="input-group-text" for="pitch_rate">音调：</label>
+		</div>
+		<select class="custom-select" id="pitch_rate">
+			<option value=0 selected>0</option>
+		</select>
+		<button id="synth" type="button" class="btn btn-primary ml-3">合成</button>
+		<button id="clear" type="button" class="btn btn-primary ml-2">清除</button>
+	</div>
+	<div class="input-group mb-2">
+		<audio controls="controls" id="play" style="width: 100%"></audio>
+	</div>
+	<div class="input-group mb-2">
+		<textarea readonly id="pinyin" rows="8" class="form-control"></textarea>
+	</div>
+</div>
+</body>
+</html>
