@@ -19,8 +19,8 @@ from django.conf.urls.static import static
 from django.conf import settings
 from TTS import views as TTS_views
 urlpatterns = [
+    url(r'^$', TTS_views.index),
+    url(r'^TTS/',include('TTS.urls')),
     url(r'^admin/', admin.site.urls),
     url(r'^TTS_API/',TTS_views.tts_api),
-    url(r'^tts/', include('tts.urls')),
-    url(r'^$', TTS_views.index),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

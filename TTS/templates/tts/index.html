@@ -23,9 +23,9 @@
       volume = $("#volume").val().trim();
       speech_rate = $("#speech_rate").val().trim();
       pitch_rate = $("#pitch_rate").val().trim();
-      if (txt == "") return;
+      if (text == "") return;
       // 请求合成
-      $.post("{% url 'tts:tts' %}", {'text':text,'format':format,'sample_rate':sample_rate,'voice':voice, 'volume':volume, 'speech_rate':speech_rate, 'pitch_rate':pitch_rate}, function(data, status, xhr) {
+      $.post("{% url 'TTS:TTS' %}", {'text':text,'format':format,'sample_rate':sample_rate,'voice':voice, 'volume':volume, 'speech_rate':speech_rate, 'pitch_rate':pitch_rate}, function(data, status, xhr) {
         if(data.respCode == "0000") {
           var audioElem = document.getElementById("play");
           audioElem.src = data.waveURL;
@@ -50,21 +50,21 @@
 			<label class="input-group-text" for="format">音频编码格式：</label>
 		</div>
 		<select class="custom-select" id="format">
-			<option value="wav" selected>wav</option>
+			<option value="mp3" selected>wav</option>
 			<option value="pcm" selected>pcm</option>
-			<option value="mp3" selected>mp3</option>
+			<option value="wav" selected>mp3</option>
 		</select>
-		<div class="input-group-prepend">
-			<label class="input-group-text" for="sample_rate">音频采样率：</label>
+		<div class="input-group-prepend_1">
+			<label class="input-group-text_1" for="sample_rate">音频采样率：</label>
 		</div>
-		<select class="custom-select" id="sample_rate">
-			<option value=16000 selected>16000Hz</option>
-			<option value=8000 selected>8000Hz</option>
+		<select class="custom-select_1" id="sample_rate">
+			<option value=16000 selected>8000Hz</option>
+			<option value=8000 selected>16000Hz</option>
 		</select>
-		<div class="input-group-prepend">
-			<label class="input-group-text" for="voice">发音人：</label>
+		<div class="input-group-prepend_2">
+			<label class="input-group-text_2" for="voice">发音人：</label>
 		</div>
-		<select class="custom-select" id="voice">
+		<select class="custom-select_2" id="voice">
 			<option value='0' selected>说话人0（英语）</option>
 			<option value='1' selected>说话人1（普通话）</option>
 			<option value='2' selected>说话人2（普通话）</option>
@@ -76,22 +76,22 @@
 			<option value='8' selected>说话人8（英语）</option>
 			<option value='9' selected>说话人9（英语）</option>
 		</select>
-		<div class="input-group-prepend">
-			<label class="input-group-text" for="way">音量：</label>
+		<div class="input-group-prepend_3">
+			<label class="input-group-text_3" for="volume">音量：</label>
 		</div>
-		<select class="custom-select" id="way">
+		<select class="custom-select_3" id="volume">
 			<option value=50 selected>50</option>
 		</select>
-		<div class="input-group-prepend">
-			<label class="input-group-text_2" for="speech_rate">语速：</label>
+		<div class="input-group-prepend_4">
+			<label class="input-group-text_4" for="speech_rate">语速：</label>
 		</div>
-		<select class="custom-select" id="speech_rate">
+		<select class="custom-select_4" id="speech_rate">
 			<option value=0 selected>0</option>
 		</select>
-		<div class="input-group-prepend">
-			<label class="input-group-text" for="pitch_rate">音调：</label>
+		<div class="input-group-prepend_5">
+			<label class="input-group-text_5" for="pitch_rate">音调：</label>
 		</div>
-		<select class="custom-select" id="pitch_rate">
+		<select class="custom-select_5" id="pitch_rate">
 			<option value=0 selected>0</option>
 		</select>
 		<button id="synth" type="button" class="btn btn-primary ml-3">合成</button>

@@ -7,5 +7,5 @@ from . import views
 app_name = 'TTS'
 urlpatterns = [
     url(r'^$', views.index, name='index'),
-    url(r'^tts/', views.tts, name='tts'),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    url(r'^TTS/', views.TTS, name='TTS'),
+]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

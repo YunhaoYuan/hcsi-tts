@@ -9,7 +9,6 @@ from Tacotron.hparams import hparams
 from Tacotron.tacotron.synthesizer import Synthesizer
 from Tacotron.zh_cn import G2P
 from tqdm import tqdm
-
 import json
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
@@ -82,14 +81,14 @@ def syn(sentence):
             for elems in zip(texts, mel_filenames, speaker_ids):
                 file.write('|'.join([str(x) for x in elems]) + '\n')
     log('synthesized mel spectrograms at {}'.format(eval_dir))
-
+    return sentences[0]
 
 def TacotronProcess(txt, spk, lan):
     sentence = [txt+'|'+spk+'|'+lan, ]
-    syn(sentence)
+    res=syn(sentence)
     # return result
     wave ='media/tacotron_output/logs-eval/wavs/wav-batch_0_sentence_0-linear.wav'
-    ret = {'respCode': '0000', 'text': txt, 'waveURL': wave}
+    ret = {'respCode': '0000', 'text': txt, 'pinyin': res, 'waveURL': wave}
     return ret
 
 @csrf_exempt
@@ -130,7 +129,7 @@ def tts_api(request):
     return response
 
 @csrf_exempt
-def tts(request):
+def TTS(request):
     # get parameters
     if request.method == 'GET':
         text = request.GET.get('text', '')
@@ -145,7 +144,7 @@ def tts(request):
         format = request.POST.get('format', '')
         sample_rate = request.POST.get('sample_rate', '')
         voice = request.POST.get('voice', '')
-        volume = request.PSOT.get('volume', '')
+        volume = request.POST.get('volume', '')
         speech_rate = request.POST.get('speech_rate', '')
         pitch_rate = request.POST.get('pitch_rate', '')
 
