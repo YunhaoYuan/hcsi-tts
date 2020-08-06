@@ -10,7 +10,7 @@ from librosa import effects
 from tacotron.models import create_model
 from tacotron.utils import plot
 from tacotron.utils.text import text_to_sequence
-
+import time
 
 class Synthesizer:
 	def load(self, checkpoint_path, hparams, gta=False, model_name='Tacotron'):
@@ -123,7 +123,10 @@ class Synthesizer:
 
 		feed_dict[self.split_infos] = np.asarray(split_infos, dtype=np.int32)
 		if self.gta or not hparams.predict_linear:
+			tf_run_start =time.time()
 			mels, alignments, stop_tokens = self.session.run([self.mel_outputs, self.alignments, self.stop_token_prediction], feed_dict=feed_dict)
+			tf_run_end=time.time()
+			print('tf_run_need_time:',tf_run_end-tf_run_start)
 			#Linearize outputs (1D arrays)
 			mels = [mel for gpu_mels in mels for mel in gpu_mels]
 			alignments = [align for gpu_aligns in alignments for align in gpu_aligns]

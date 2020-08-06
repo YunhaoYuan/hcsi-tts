@@ -1,0 +1,5 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<modules xml:lang="zh-cmn">
+  <dlib file="./CrystalTTS/libtts.zh.cmn.text.so" />
+  <textdata path="./CrystalTTS/data/putonghua/text" loaddata="true" />
+</modules>

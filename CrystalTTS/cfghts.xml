@@ -1,0 +1,5 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<modules xml:lang="zh-cmn">
+  <dlib file="./CrystalTTS/libtts.zh.cmn.hts.so" />
+  <voicedata path="./CrystalTTS/data/putonghua/hts" />
+</modules>
